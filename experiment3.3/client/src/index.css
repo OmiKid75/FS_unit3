@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #12161c;
+  background-image:
+    radial-gradient(circle at 15% 0%, rgba(79, 124, 255, 0.08), transparent 40%),
+    radial-gradient(circle at 85% 20%, rgba(63, 201, 127, 0.06), transparent 35%);
+}
+
+::selection { background: #4f7cff; color: white; }
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2b3340; border-radius: 8px; }
+
+.card { background: #1e242e; border: 1px solid #2b3340; border-radius: 14px; }
+
+.btn-primary {
+  background: linear-gradient(135deg, #4f7cff, #7c9cff);
+  color: white;
+  font-weight: 600;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px -8px rgba(79, 124, 255, 0.6); }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.btn-ghost {
+  background: transparent;
+  border: 1px solid #2b3340;
+  color: #cbd5e1;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+.btn-ghost:hover { border-color: #4f7cff; color: white; }
+.btn-ghost:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.input-field {
+  background: #171c24;
+  border: 1px solid #2b3340;
+  border-radius: 10px;
+  color: #f1f5f9;
+  transition: border-color 0.15s ease;
+}
+.input-field:focus { outline: none; border-color: #4f7cff; }
+
+.font-display { font-family: "Space Grotesk", sans-serif; }
+.font-mono { font-family: "JetBrains Mono", monospace; }
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}

@@ -1,0 +1,53 @@
+name: CD - Build and Publish Docker Image
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+          cache: maven
+
+      - name: Run tests before release
+        run: mvn -B test
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push versioned image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-demo:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/ci-cd-demo:latest
+
+      - name: Canary release demonstration instructions
+        run: |
+          echo "Image pushed. For local canary demonstration, run:"
+          echo "docker compose up -d stable"
+          echo "docker compose --profile canary up -d canary"
+          echo "Stable endpoint: http://localhost:8080/api/version"
+          echo "Canary endpoint: http://localhost:8081/api/version"
